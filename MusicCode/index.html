@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/style.css">
+<link rel="stylesheet" href="">
+</head>
+<body>
+    <div class="player">
+        <!-- dashboard -->
+        <div class="dashboard">
+            <div class="header">
+                <h4>Now playing:</h4>
+                <h2>String 57th & 9th</h2>
+            </div>
+            <div class="cd">
+                <div class="cd-thumb" style="background-image: url('https://i.ytimg.com/vi/jTLhQf5KJSc/maxresdefault.jpg')">
+                </div>
+            </div>
+           <div class="control">
+                <div class="btn btn-repeat">
+                    <i class="fas fa-redo"></i>
+                </div>
+                <div class="btn btn-prev">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+                <div class="btn btn-toggle-play">
+                    <i class="fas fa-pause icon-pause"></i>
+                    <i class="fas fa-play icon-play"></i>
+                </div>
+                <div class="btn btn-next">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <div class="btn btn-ramdom">
+                    <i class="fas fa-random"></i>
+                </div>
+            </div> 
+            <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
+            <audio id="audio" src=""></audio>
+        </div>
+        <div class="playlist">
+        </div>
+    </div>
+    <script>
+        const $ = document.querySelector.bind(document);
+        const $$ = document.querySelector.bind(document);
+        const playlist = $('.playlist');
+        const heading = $('.header h2')
+        const cdThumb = $('.cd-thumb')
+        const audio = $('#audio')
+        const cd = $('.cd')
+        const playBtn = $('.btn-toggle-play')
+        const player = $('.player')
+        const progress = $('#progress')
+        const nextBtn = $('.btn-next')
+        const prev = $('.btn-prev')
+        const ramdomBtn = $('.btn-ramdom')
+        const repeatBTn = $('.btn-repeat')
+        const app = {
+            currentIndex: 0,
+            isPlaying : false,
+            isRamdom : false,
+            isRepeat:false,
+            songs: [
+                {
+                    name: "I'm The One",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song1.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Tic Toe",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song2.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Austin Mahone",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song3.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Baby",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song4.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "No Reason",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song5.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Number One",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song6.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Cheating On You",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song7.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Double Take",
+                    singer: "Lưu Huy Quân",
+                    path: '.assets/music/song8.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Pano",
+                    singer: "Lưu Huy Quân",
+                    path: '.assets/music/song9.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Shoti LDR",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song10.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Cupid",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song11.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Nothin' On You",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song12.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Treasure DaDaRi",
+                    singer: "Lưu Huy Quân",
+                    path: '.assets/music/song13.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Mây Lang Thang",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song14.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Như Anh Mơ",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song25.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Thiên Thần Tình Yêu",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song16.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "10 Ngàn Năm",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song17.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Từ Ngày Em Đến",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song18.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Giấu Trời Mang Đi",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song19.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Chuyện Đôi Ta",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song20.mp3',
+                    image: 'assets/img/ìno.jpg'
+                },
+                {
+                    name: "Đã Lỡ Yêu Em Rồi",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song21.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Tình Yêu Chậm Trễ",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song22.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Muộn Rồi Mà Sao Còn",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song23.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Như Anh Đã Thấy Em",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song24.mp3',
+                    image: 'assets/img/image.png'
+                },
+                {
+                    name: "Em Có Nhớ Anh Không",
+                    singer: "Lưu Huy Quân",
+                    path: 'assets/music/song25.mp3',
+                    image: 'assets/img/image.png'
+                },
+            ],
+            render: function () {
+                const htmls = this.songs.map((song, index) => {
+                    return `
+                    <div class="song ${index == this.currentIndex ? 'active':''} " data-index='${index}'>
+                        <div class="thumb" style="background-image: url('${song.image}')">
+                        </div>
+                        <div class="body">
+                            <h3 class="title">${song.name}</h3>
+                            <p class="author">${song.singer}</p>
+                        </div>
+                        <div class="option">
+                        <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                        </div>
+                        `;
+                    });
+                    playlist.innerHTML = htmls.join('')
+            },
+            defineProperties: function() {
+                Object.defineProperty(this, 'currentSong', {
+                    get: function() {
+                        return this.songs[this.currentIndex];
+                    }
+                });
+            },
+            handleEvents : () => {
+                const cdWidth = cd.offsetWidth
+                const _this = this
+                //Xử lý CD quay và dừng 
+                const CdThumbAnimate = cdThumb.animate([
+                    {transform : 'rotate(360deg)'}
+                ], {
+                    duration : 9000, 
+                    iterations : Infinity,
+                })
+                CdThumbAnimate.pause()
+                //Xử lý phóng to thi nhỏ CD
+                document.onscroll = () => {
+                   const scrollTop =  document.documentElement.scrollTop;
+                   const newCdWidth = cdWidth - scrollTop
+                   cd.style.width = newCdWidth > 0 ? newCdWidth + 'px' : 0
+                   cd.style.opacity =  newCdWidth / cdWidth 
+                }
+                //Xử lý khi click play
+                playBtn.onclick = function() {
+                    if (_this.isPlaying) {
+                        audio.pause()
+                    } 
+                    else {
+                        audio.play()
+                    }
+                }
+                //Khi bài hát đc play 
+                audio.onplay = function() {
+                    _this.isPlaying = true
+                    player.classList.add('playing')
+                    CdThumbAnimate.play()
+                }
+                //Khi xong bị pause
+                audio.onpause = function() {
+                    _this.isPlaying = false
+                    player.classList.remove('playing')
+                    CdThumbAnimate.pause()
+                }
+                //Khi tiến độ bài hát thay đổi
+                audio.ontimeupdate = function() {
+                    if (audio.duration) {
+                        const progressPercent = Math.floor(audio.currentTime / audio.duration * 100)
+                        progress.value = progressPercent
+                    }
+                }
+                //Xử lý khi tua bài hát
+                progress.onchange = function(e) {
+                    const seekTime = audio.duration/100 * e.target.value
+                    audio.currentTime = seekTime
+                }
+                //Khi next bài hát 
+                nextBtn.onclick = function(){
+                    app.nextSong()
+                    audio.play()
+                    app.render()
+                    app.scrollToActiceSong()
+                }
+                prev.onclick = function() {
+                    app.prevSong()
+                    audio.play()
+                    app.render()
+                    app.scrollToActiceSong()
+
+                }
+                //Xử lý bật tắt / ramdom songs
+                ramdomBtn.onclick = function(e) {
+                    this.isRamdom = !_this.isRamdom
+                    ramdomBtn.classList.toggle('active', _this.isRamdom)
+                }
+                //Xử lý phát lại 1 bài hát 
+                repeatBTn.onclick = function(e) {
+                    _this.isRamdom = !_this.isRepeat 
+                    repeatBTn.classList.toggle('active', _this.isRepeat) 
+                } 
+                //Xử lý next song khi audio ended
+                audio.onended = function() {
+                    if(_this.isRepeat) {
+                        audio.play()
+                    }
+                    else {
+                        nextBtn.click()
+                    }
+                }
+                //Lắng nghe click hành vi click vào playlist
+                playlist.onclick = function(e) {
+                    const songNote = e.target.closest('.song:not(.active)')
+                    if(songNote || e.target.closest('.option')){  
+                       if (songNote) {
+                            app.currentIndex =songNote.dataset.index
+                            app.loadcurrentSong()
+                            app.render()
+                            audio.play()
+
+                       }
+                       if (e.target.closest('.option')) {
+
+                       }
+                    }
+                }
+                
+            },
+            loadcurrentSong : function() {
+                heading.textContent = this.currentSong.name
+                cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`
+                audio.src = this.currentSong.path
+            },
+            
+            nextSong: function() {
+                this.currentIndex++
+                if (this.currentIndex >= this.songs.length) {
+                    this.currentIndex = 0
+                } 
+                this.loadcurrentSong()
+            },
+            prevSong : function() {
+    
+                this.currentIndex--
+                if (this.currentIndex < 0) {
+                    this.currentIndex = this.songs.length - 1
+                } 
+                this.loadcurrentSong()
+            },
+            scrollToActiceSong:function() {
+                setTimeout(() =>{
+                    $('.song.active').scrollIntoView({
+                        behavior : 'smooth',
+                        block:'nearest'
+                    })
+                },300)
+            },
+            start: function () {
+                //Định nghĩa các thuộc tính cho object
+                this.defineProperties();
+                //Lắng nghe / xử các sự kiện Dom Events
+                this.handleEvents()
+                //Tải thông tin bài hát đầu tiền UI khi chạy Ứng dụng
+                this.loadcurrentSong()
+                this.render();
+            
+            }
+        };
+
+        app.start();
+    </script>
+</body>
+</html>
